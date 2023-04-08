@@ -1,0 +1,9 @@
+main: dev.george.animatedchests.AnimatedChests
+name: AnimatedChests
+version: 1.0.0
+author: George
+description: A plugin that creates animated crates
+commands:
+  key:
+    description: Gives a key to a player
+    aliases: [crate]

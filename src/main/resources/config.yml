@@ -1,0 +1,27 @@
+database:
+  type: "flatfile"
+  mongo-uri: "Leave empty if you aren't using MongoDB"
+chest-locations:
+  1:
+    world: "world"
+    x: 0
+    y: 64
+    z: 0
+chest-types:
+  Common:
+    name: "Common"
+    displayName: "&eCommon"
+    description:
+      - "&7Example Chest"
+      - "&7You have %quantity% keys!"
+    slot: 0
+    rewards:
+      1:
+        command: "say %player% won a reward!"
+      2:
+        item:
+          displayName: "&cExample Item"
+          material: "DIAMOND"
+          amount: 1
+          lore:
+            - "&cExample Item #1"
