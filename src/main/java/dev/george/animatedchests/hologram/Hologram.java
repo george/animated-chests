@@ -15,6 +15,8 @@ public class Hologram {
 
     private final List<ArmorStand> armorStands = new ArrayList<>();
 
+    private final List<Integer> entityIds = new ArrayList<>();
+
     public Hologram(Location location, List<String> lines) {
 
         for(int i = 0; i < lines.size(); i++) {
@@ -32,6 +34,7 @@ public class Hologram {
         armorStand.setGravity(false);
 
         armorStands.add(armorStand);
+        entityIds.add(armorStand.getEntityId());
     }
 
     public static class HologramBuilder {

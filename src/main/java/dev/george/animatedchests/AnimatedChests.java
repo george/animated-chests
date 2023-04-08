@@ -36,13 +36,15 @@ public class AnimatedChests extends JavaPlugin {
 
         configuration.getChests().forEach(chest -> {
             Location location = chest.getBaseLocation();
-
             location.getWorld().getBlockAt(location).setType(Material.CHEST);
 
-            hologramManager.registerHologram(new Hologram.HologramBuilder()
+            Hologram hologram = new Hologram.HologramBuilder()
                     .addLine("&a&lOpen Treasure Chests")
                     .build(location.clone().add(new Vector(0, -0.5, 0))
-            ));
+            );
+
+            hologramManager.registerHologram(hologram);
+            chest.setHologram(hologram);
         });
 
         getCommand("key").setExecutor(new CrateKeyCommand(this));

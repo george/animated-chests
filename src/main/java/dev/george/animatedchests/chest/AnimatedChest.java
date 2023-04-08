@@ -1,7 +1,9 @@
 package dev.george.animatedchests.chest;
 
 import dev.george.animatedchests.chest.offset.Offset;
+import dev.george.animatedchests.hologram.Hologram;
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.TileEntityChest;
 import org.bukkit.Location;
@@ -32,6 +34,8 @@ public class AnimatedChest {
 
     private final Set<Location> openedChests = new HashSet<>();
 
+    @Setter private Hologram hologram;
+
     private Player lastPlayerUse;
 
     public AnimatedChest(Location baseLocation) {
@@ -43,7 +47,7 @@ public class AnimatedChest {
 
         World world = baseLocation.getWorld();
         world.getBlockAt(baseLocation).setType(Material.AIR);
-        
+
         OFFSETS.forEach(offset -> {
             int offsetX = offset.getOffsetX();
             int offsetZ = offset.getOffsetZ();
