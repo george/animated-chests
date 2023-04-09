@@ -39,7 +39,6 @@ public class AnimatedChest {
     private Hologram hologram;
     private ChestSession session;
 
-
     public AnimatedChest(Location baseLocation) {
         this.baseLocation = baseLocation;
     }
@@ -61,6 +60,7 @@ public class AnimatedChest {
         });
 
         AnimatedChests.getInstance().getHologramManager().unregisterHologram(hologram);
+        AnimatedChests.getInstance().getPlayerDataManager().getData(player).useKey(chestType.getName());
 
         this.session = new ChestSession(this, player, chestType, player.getLocation());
     }
