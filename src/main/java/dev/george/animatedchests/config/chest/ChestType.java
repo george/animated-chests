@@ -16,6 +16,7 @@ public class ChestType {
     private final List<String> description = new ArrayList<>();
 
     private final int slot;
+    private final int maxRewards;
 
     private final String name;
     private final String displayName;
@@ -23,6 +24,7 @@ public class ChestType {
     public ChestType(ConfigurationSection section) {
         this.name = section.getString("name");
         this.displayName = ChatColor.translateAlternateColorCodes('&', section.getString("displayName"));
+
         this.description.addAll(section.getStringList("description")
                 .stream()
                 .map(line -> ChatColor.translateAlternateColorCodes('&', line))
@@ -30,6 +32,7 @@ public class ChestType {
         );
 
         this.slot = section.getInt("slot");
+        this.maxRewards = section.getInt("max-rewards");
 
         section.getConfigurationSection("rewards").getKeys(false).forEach(key -> {
             this.rewards.add(new ChestReward(section.getConfigurationSection("rewards." + key)));

@@ -6,7 +6,6 @@ import dev.george.animatedchests.config.chest.ChestType;
 import dev.george.animatedchests.config.parser.ConfigurationParser;
 import dev.george.animatedchests.data.database.IDatabaseEngine;
 import lombok.Getter;
-import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;

@@ -1,7 +1,10 @@
 package dev.george.animatedchests.chest;
 
+import dev.george.animatedchests.AnimatedChests;
 import dev.george.animatedchests.chest.offset.Offset;
+import dev.george.animatedchests.config.chest.ChestType;
 import dev.george.animatedchests.hologram.Hologram;
+import dev.george.animatedchests.session.ChestSession;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.server.v1_8_R3.BlockPosition;
@@ -13,10 +16,11 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.util.*;
 
-@Getter
+@Getter @Setter
 public class AnimatedChest {
 
     private static final List<Offset> OFFSETS = Arrays.asList(
@@ -32,19 +36,15 @@ public class AnimatedChest {
 
     private final Location baseLocation;
 
-    private final Set<Location> openedChests = new HashSet<>();
+    private Hologram hologram;
+    private ChestSession session;
 
-    @Setter private Hologram hologram;
-
-    private Player lastPlayerUse;
 
     public AnimatedChest(Location baseLocation) {
         this.baseLocation = baseLocation;
     }
 
-    public void play(Player player) {
-        this.lastPlayerUse = player;
-
+    public void play(Player player, ChestType chestType) {
         World world = baseLocation.getWorld();
         world.getBlockAt(baseLocation).setType(Material.AIR);
 
@@ -60,7 +60,9 @@ public class AnimatedChest {
             block.setData(offset.getDirection());
         });
 
-        player.teleport(baseLocation);
+        AnimatedChests.getInstance().getHologramManager().unregisterHologram(hologram);
+
+        this.session = new ChestSession(this, player, chestType, player.getLocation());
     }
 
     public void onClickChest(Block block) {
@@ -75,8 +77,29 @@ public class AnimatedChest {
         }).filter(Objects::nonNull).forEach(location -> {
             Chest chest = (Chest) location.getBlock().getState();
 
+            if (session.getOpenedChests().size() >= session.getChestType().getMaxRewards()) {
+                return;
+            }
+
             openChest(chest);
+            session.handleClickChest(location);
         });
+    }
+
+    public void onComplete() {
+        Hologram hologram = new Hologram.HologramBuilder()
+                .addLine("&a&lOpen Treasure Chests")
+                .build(baseLocation.clone().add(new Vector(0, -0.5, 0)));
+        AnimatedChests.getInstance().getHologramManager().registerHologram(hologram);
+
+        OFFSETS.forEach(offset -> {
+            Location location = baseLocation.clone().add(offset.getOffsetX(), 0, offset.getOffsetZ());
+
+            location.getWorld().getBlockAt(location).setType(Material.AIR);
+        });
+
+        this.hologram = hologram;
+        baseLocation.getBlock().setType(Material.CHEST);
     }
 
     public void openChest(Chest chest) {

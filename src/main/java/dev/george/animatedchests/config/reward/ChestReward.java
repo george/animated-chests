@@ -13,14 +13,12 @@ import java.util.Optional;
 public class ChestReward {
 
     private final String name;
-    private final String displayName;
 
     private final Optional<String> command;
     private final Optional<ItemStack> item;
 
     public ChestReward(ConfigurationSection section) {
         this.name = section.getString("name");
-        this.displayName = section.getString("displayName");
 
         if (section.getString("command") != null) {
             this.command = Optional.of(section.getString("command"));

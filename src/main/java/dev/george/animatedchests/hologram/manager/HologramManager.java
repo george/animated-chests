@@ -14,6 +14,12 @@ public class HologramManager {
         this.holograms.add(hologram);
     }
 
+    public void unregisterHologram(Hologram hologram) {
+        hologram.getArmorStands().forEach(Entity::remove);
+
+        this.holograms.remove(hologram);
+    }
+
     public void removeAllHolograms() {
         holograms.forEach(hologram -> hologram.getArmorStands().forEach(Entity::remove));
     }

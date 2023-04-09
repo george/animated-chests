@@ -15,10 +15,13 @@ chest-types:
       - "&7Example Chest"
       - "&7You have %quantity% keys!"
     slot: 0
+    max-rewards: 4
     rewards:
       1:
+        name: "&cExample Reward #1"
         command: "say %player% won a reward!"
       2:
+        name: "&eExample Reward #2"
         item:
           displayName: "&cExample Item"
           material: "DIAMOND"

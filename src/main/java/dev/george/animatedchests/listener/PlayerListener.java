@@ -40,7 +40,15 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        animatedChests.getPlayerDataManager().handleQuit(event.getPlayer());
+        Player player = event.getPlayer();
+
+        animatedChests.getPlayerDataManager().handleQuit(player);
+        animatedChests.getConfiguration().getChests().stream()
+                .filter(chest -> player.equals(chest.getSession().getPlayer()))
+                .forEach(chest -> {
+                    chest.getSession().complete();
+                    chest.setSession(null);
+                });
     }
 
     @EventHandler
@@ -54,7 +62,7 @@ public class PlayerListener implements Listener {
         Location interactedLocation = event.getClickedBlock().getLocation();
 
         animatedChests.getConfiguration().getChests().stream()
-                .filter(chest -> player.equals(chest.getLastPlayerUse()))
+                .filter(chest -> chest.getSession() != null && player.equals(chest.getSession().getPlayer()))
                 .forEach(chest -> {
                     event.setCancelled(true);
 
@@ -99,17 +107,13 @@ public class PlayerListener implements Listener {
             event.setCancelled(true);
 
             int slot = event.getSlot();
-            ChestType chestType = animatedChests.getConfiguration().getChestTypes().values()
+            animatedChests.getConfiguration().getChestTypes().values()
                     .stream()
                     .filter(type -> type.getSlot() == slot)
                     .findFirst()
-                    .orElse(null);
-
-            if (chestType == null) {
-                return;
-            }
-
-            lastClickedChests.get(player).play(player);
+                    .ifPresent((type) -> {
+                        lastClickedChests.get(player).play(player, type);
+                    });
         }
     }
 }

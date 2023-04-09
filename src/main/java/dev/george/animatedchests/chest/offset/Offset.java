@@ -8,6 +8,7 @@ public class Offset {
 
     private final int offsetX;
     private final int offsetZ;
+
     private final byte direction;
 
 }
