@@ -9,8 +9,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-
 @AllArgsConstructor
 public class CrateKeyCommand implements CommandExecutor {
 
@@ -23,35 +21,31 @@ public class CrateKeyCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        switch (args.length) {
-            case 0:
-            case 1:
-            case 2:
-                sendMessage(sender, SYNTAX);
-                return false;
-            case 3:
-                Player player = Bukkit.getPlayer(args[0]);
-                String crateType = args[1];
-
-                if (!instance.getConfiguration().getChestTypes().keySet().stream().anyMatch(type ->
-                        type.equalsIgnoreCase(crateType))) {
-                    sendMessage(sender, CANNOT_FIND_CRATE_TYPE);
-
-                    return false;
-                }
-
-                int amount;
-
-                try {
-                    amount = Integer.parseInt(args[2]);
-                } catch (NumberFormatException exc) {
-                    sendMessage(sender, INVALID_AMOUNT);
-                    return false;
-                }
-
-                instance.getPlayerDataManager().getData(player).addKey(crateType, amount);
-                sendMessage(sender, String.format(SUCCESS, player.getName(), amount, crateType));
+        if (args.length != 3) {
+            sendMessage(sender, SYNTAX);
+            return false;
         }
+
+        Player player = Bukkit.getPlayer(args[0]);
+        String crateType = args[1];
+
+        if (instance.getConfiguration().getChestTypes().keySet().stream().noneMatch(type -> type.equalsIgnoreCase(crateType))) {
+            sendMessage(sender, CANNOT_FIND_CRATE_TYPE);
+
+            return false;
+        }
+
+        int amount;
+
+        try {
+            amount = Integer.parseInt(args[2]);
+        } catch (NumberFormatException exc) {
+            sendMessage(sender, INVALID_AMOUNT);
+            return false;
+        }
+
+        instance.getPlayerDataManager().getData(player).addKey(crateType, amount);
+        sendMessage(sender, String.format(SUCCESS, player.getName(), amount, crateType));
 
         return false;
     }

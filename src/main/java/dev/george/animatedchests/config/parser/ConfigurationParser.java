@@ -4,6 +4,7 @@ import dev.george.animatedchests.AnimatedChests;
 import dev.george.animatedchests.config.chest.ChestType;
 import dev.george.animatedchests.data.database.IDatabaseEngine;
 import dev.george.animatedchests.data.database.impl.FlatFileDatabase;
+import dev.george.animatedchests.data.database.impl.MongoDatabaseEngine;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -49,7 +50,7 @@ public class ConfigurationParser {
             case "flatfile":
                 return new FlatFileDatabase(instance);
             case "mongodb":
-                return null;
+                return new MongoDatabaseEngine(config.getString("database.mongo-uri"));
             default:
                 throw new IllegalStateException("Unknown database type set!");
         }

@@ -15,7 +15,7 @@ public class PlayerData {
     }
 
     public int getKeyCount(String crateName) {
-        return this.keys.get(crateName.toLowerCase());
+        return this.keys.getOrDefault(crateName.toLowerCase(), 0);
     }
 
     public void useKey(String crateName) {
