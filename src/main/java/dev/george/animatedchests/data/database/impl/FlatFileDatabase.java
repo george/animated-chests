@@ -56,7 +56,6 @@ public class FlatFileDatabase implements IDatabaseEngine {
         PlayerData playerData = new PlayerData();
 
         object.entrySet().forEach((entry) -> {
-            System.out.println(entry.getKey() + ":" + entry.getValue());
             playerData.addKey(entry.getKey(), entry.getValue().getAsInt());
         });
 
