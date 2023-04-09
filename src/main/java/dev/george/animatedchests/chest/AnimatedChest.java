@@ -3,6 +3,7 @@ package dev.george.animatedchests.chest;
 import dev.george.animatedchests.AnimatedChests;
 import dev.george.animatedchests.chest.offset.Offset;
 import dev.george.animatedchests.config.chest.ChestType;
+import dev.george.animatedchests.data.PlayerData;
 import dev.george.animatedchests.hologram.Hologram;
 import dev.george.animatedchests.session.ChestSession;
 import lombok.Getter;
@@ -59,8 +60,14 @@ public class AnimatedChest {
             block.setData(offset.getDirection());
         });
 
+        PlayerData data = AnimatedChests.getInstance().getPlayerDataManager().getData(player);
+
+        if (data.getKeyCount(chestType.getName()) <= 0) {
+            return;
+        }
+
         AnimatedChests.getInstance().getHologramManager().unregisterHologram(hologram);
-        AnimatedChests.getInstance().getPlayerDataManager().getData(player).useKey(chestType.getName());
+        data.useKey(chestType.getName());
 
         this.session = new ChestSession(this, player, chestType, player.getLocation());
     }
