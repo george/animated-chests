@@ -44,7 +44,7 @@ public class PlayerListener implements Listener {
 
         animatedChests.getPlayerDataManager().handleQuit(player);
         animatedChests.getConfiguration().getChests().stream()
-                .filter(chest -> player.equals(chest.getSession().getPlayer()))
+                .filter(chest -> chest.getSession() != null && player.equals(chest.getSession().getPlayer()))
                 .forEach(chest -> {
                     chest.getSession().complete();
                     chest.setSession(null);
