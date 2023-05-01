@@ -1,6 +1,13 @@
 database:
   type: "flatfile"
-  mongo-uri: "Leave empty if you aren't using MongoDB"
+  mongo:
+    mongo-uri: "Leave empty if you aren't using MongoDB"
+  mysql:
+    ip: "Leave empty if you aren't using MySQL"
+    port: 3306
+    username: "Leave empty if you aren't using MySQL"
+    password: "Leave empty if you aren't using MySQL"
+    database: "Leave empty if you aren't using MySQL"
 chest-locations:
   1:
     world: "world"

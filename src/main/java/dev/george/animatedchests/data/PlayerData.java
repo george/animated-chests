@@ -11,7 +11,7 @@ public class PlayerData {
     private final Map<String, Integer> keys = new HashMap<>();
 
     public void addKey(String crateName, int keys) {
-        this.keys.put(crateName.toLowerCase(), this.keys.getOrDefault(crateName, 0) + keys);
+        this.keys.put(crateName.toLowerCase(), this.keys.getOrDefault(crateName.toLowerCase(), 0) + keys);
     }
 
     public int getKeyCount(String crateName) {
